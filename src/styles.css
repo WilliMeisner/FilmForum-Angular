@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+
+
+
+
+body:has(app-movie-explorer) .top-bar,
+body:has(app-watchlist) .top-bar,
+body:has(app-diary) .top-bar {
+  background-color: #121212 !important;
+  color: white !important;
+  border-bottom: 1px solid #222 !important;
+}

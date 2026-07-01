@@ -1,0 +1,158 @@
+/* Der Container nutzt Flexbox, um Sidebar und Content nebeneinander zu halten */
+.app-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* SIDEBAR: Immer sichtbar als schmaler Streifen */
+.sidebar {
+  width: 60px;
+  background-color: #333;
+  color: white;
+  transition: width 0.3s ease;
+  flex-shrink: 0;
+  z-index: 1000;
+  overflow-y: auto; /* Falls das Menü viele Links hat, kann man darin scrollen */
+  height: 100vh;    /* Immer volle Fensterhöhe */
+}
+
+/* Wenn das Menü offen ist, wird die Sidebar breiter */
+.app-container.menu-open .sidebar {
+  width: 250px;
+}
+
+/* LINKS IN DER SIDEBAR */
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px; /* Platz unter dem Burger-Niveau */
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  padding: 15px 18px; /* Padding so gewählt, dass Icon zentriert ist */
+  color: white;
+  text-decoration: none;
+  white-space: nowrap; /* Verhindert Zeilenumbruch beim Schieben */
+}
+
+.sidebar .text {
+  margin-left: 20px;
+  opacity: 0; /* Text unsichtbar im Streifen-Modus */
+  transition: opacity 0.2s;
+}
+
+.app-container.menu-open .sidebar .text {
+  opacity: 1; /* Text sichtbar, wenn offen */
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;    /* Fest auf Bildschirmhöhe */
+  overflow: hidden; /* Der Content-Rahmen selbst scrollt nicht... */
+  background: white;
+}
+
+.top-bar {
+  flex-shrink: 0;   /* Verhindert, dass die Bar zusammengedrückt wird */
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+}
+/* app.css */
+
+/* Die Liste im Dropdown */
+.dropdown-item {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  transition: padding-left 0.2s;
+}
+
+.dropdown-item:hover {
+  color: #3a5afe !important; /* Dein Akzent-Blau */
+  padding-left: 5px;
+}
+
+/* Sicherstellen, dass die user-actions genug Trefferfläche für Hover haben */
+.user-actions {
+  padding: 10px 0; /* Vergrößert den Hover-Bereich */
+}
+
+/* Positionierung in der Top-Bar */
+.user-actions {
+  position: relative; /* Wichtig für die absolute Positionierung des Modals */
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Der angezeigte Username */
+.username-display {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: inherit;
+  opacity: 0.9;
+}
+
+/* Das schmale Login-Fenster */
+.login-dropdown {
+  position: absolute;
+  top: 45px; /* Direkt unter der Top-Bar */
+  right: 0;
+  width: 220px;
+  background-color: #1a1a1a;
+  padding: 15px;
+  border-radius: 8px;
+  z-index: 2000;
+  color: white;
+}
+
+/* Kleine Anpassung für die Input-Felder im Login */
+.login-dropdown .form-control {
+  border-color: #444;
+}
+
+.login-dropdown .form-control:focus {
+  border-color: #3a5afe;
+  box-shadow: none;
+}
+
+.profile-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: inherit; /* Nimmt die Farbe der Top-Bar an (schwarz oder weiß) */
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.2s;
+}
+
+.profile-btn:hover {
+  transform: scale(1.1);
+}
+
+.page-wrapper {
+  flex-grow: 1;     /* Nutzt den restlichen Platz unter der Top-Bar */
+  overflow-y: auto; /* NUR dieser Bereich darf die Filme scrollen! */
+  width: 100%;
+}
+
+.burger-btn {
+  font-size: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color : rgb(85, 82, 82);
+  z-index: 1100; /* Höher als Sidebar, damit immer klickbar */
+}

@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "backend": "npx json-server --watch db.json",
     "serve:ssr:Film-forum": "node dist/Film-forum/server/server.mjs"
   },
   "private": true,

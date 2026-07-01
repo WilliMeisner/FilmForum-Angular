@@ -1,0 +1,223 @@
+.movie-container {
+  min-height: 100vh;
+  background-color: #121212; /* Sehr dunkles Grau für Kino-Feeling */
+}
+
+/* secreto.css */
+
+.movie-card img {
+  width: 100%;       /* Nutzt die volle Breite der Karte */
+  height: auto;      /* Das Bild bestimmt seine Höhe selbst -> nichts wird abgeschnitten */
+  display: block;    /* Verhindert kleine Abstände unter dem Bild */
+  object-fit: contain; /* Sorgt dafür, dass das ganze Bild sichtbar bleibt */
+  border-bottom: 1px solid #333;
+}
+
+/* Optional: Damit die Karten bei unterschiedlichen Poster-Längen 
+   trotzdem gleich hoch aussehen, können wir die Karte auf flex stellen */
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+
+.movie-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+  border-color: #3a5afe !important; /* Blauer Rahmen beim Drüberfahren */
+}
+.form-control:focus {
+  background-color: #1a1a1a;
+  color: white;
+  border-color: #3a5afe;
+  box-shadow: 0 0 0 0.25rem rgba(58, 90, 254, 0.25);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Verhindert den weißen Streifen oben/neben dem Menü */
+.navbar, .header, nav {
+  background-color: #121212 !important; /* Gleiche Farbe wie dein Cinema-Bereich */
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Falls der Body oder ein Container einen weißen Hintergrund hat */
+body {
+  background-color: #121212;
+  margin: 0;
+}
+
+/* Sicherstellen, dass der Ladebereich absolut dunkel ist */
+.loading-area {
+  background-color: #121212 !important; 
+  color: white;
+  border: none;
+}
+
+/* Falls der Spinner selbst in einem weißen Kasten erscheint */
+.spinner-border {
+  background-color: transparent !important;
+}
+
+
+/* Das Overlay bleibt gleich */
+.movie-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  padding: 20px;
+}
+/* Der Container: Wir definieren eine feste Breite, 
+   aber die Höhe lassen wir durch den Inhalt (das Poster) bestimmen */
+.movie-modal-content {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex; 
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+/* Die linke Seite: Das Poster gibt die Größe vor */
+.modal-poster-side {
+  flex: 0 0 40%; /* 40% Breite fest für das Poster */
+  display: flex;
+}
+
+.modal-poster-side img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover; /* Sorgt dafür, dass es den Bereich füllt */
+}
+
+/* DIE RECHTE SEITE: Hier passiert die Magie */
+.modal-content-side {
+  flex: 1; /* Nimmt den Rest der Breite ein */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* Dieser Trick sorgt dafür, dass dieser Bereich nur so hoch ist wie das Poster links */
+  height: auto; 
+}
+
+/* Der scrollbare Bereich innerhalb der rechten Seite */
+.scroll-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+/* Scrollbar Styling für den modernen Look */
+.scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+/* Review-Karten Styling */
+.review-bubble {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+/* Schließen-Button oben rechts */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  padding: 10px;
+  z-index: 10;
+}
+
+/* Bild im Modal */
+.modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px 0 0 12px;
+}
+
+/* secreto.css */
+
+/* Das freistehende gelbe Plus-Zeichen */
+.add-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent; /* Kein Hintergrund mehr */
+  color: #ffc107; /* Das Plus selbst wird gelb */
+  border: none;
+  font-size: 48px; /* Etwas größer, da der Kreis weg ist */
+  font-weight: bold;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  
+  /* WICHTIG: Ein dunkler Schatten, damit das Plus auf hellen Postern nicht verschwindet */
+  text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.9), 0px 0px 3px rgba(0, 0, 0, 1);
+}
+
+.add-btn:hover {
+  transform: scale(1.25); /* Wird beim Hover etwas größer */
+  color: #ffed4a; /* Wird beim Hover ein bisschen heller/leuchtender */
+}
+
+
+
+
+/* Animation beim Öffnen */
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive Anpassung für Handys */
+@media (max-width: 768px) {
+  .modal-img {
+    border-radius: 12px 12px 0 0;
+    max-height: 300px;
+  }
+  .movie-modal-content {
+    overflow-y: auto;
+  }
+}

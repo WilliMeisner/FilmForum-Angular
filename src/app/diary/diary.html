@@ -1,0 +1,100 @@
+<div class="secreto-container py-5 text-white" style="min-height: 100vh; background-color: #121212;">
+  <div class="container">
+    <h2 class="mb-4 d-flex align-items-center">
+      <span class="me-3">📖</span> Mein Diary
+    </h2>
+
+    @if (isLoading()) {
+      <div class="text-center mt-5">
+        <div class="spinner-border text-warning" role="status"></div>
+        <p class="text-secondary mt-3">Lade Tagebuch...</p>
+      </div>
+    } 
+    @else if (diaryEntries().length === 0) {
+      <div class="text-center mt-5 bg-dark p-5 rounded border border-secondary">
+        <p class="text-secondary fs-5">Dein Tagebuch ist noch leer.</p>
+      </div>
+    } @else {
+      <div class="diary-list">
+        @for (entry of diaryEntries(); track entry.movie.id + entry.watchDate) {
+          <div class="diary-item d-flex gap-4 mb-4 p-3 rounded border border-secondary shadow-sm" 
+               (click)="openEditModal(entry)" style="cursor: pointer;">
+            
+            <div class="diary-poster-wrapper">
+              <img [src]="movieService.getPosterUrl(entry.movie.poster_path)" 
+                   class="diary-poster" [alt]="entry.movie.title">
+            </div>
+
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h4 class="mb-1">{{ entry.movie.title }}</h4>
+                  <p class="text-warning small mb-2">
+                    Gesehen am {{ entry.watchDate | date:'dd.MM.yyyy' }}
+                  </p>
+                </div>
+                <div class="stars fs-5">
+                  {{ getStars(entry.rating) }}
+                </div>
+              </div>
+
+              @if (entry.reviewText) {
+                <div class="review-box p-3 mt-2 rounded">
+                  <p class="mb-0 fst-italic text-light">"{{ entry.reviewText }}"</p>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+@if (selectedEntryForEdit(); as entry) {
+  <div class="custom-modal-backdrop" (click)="closeModal()">
+    <div class="custom-modal-content bg-dark text-white border border-secondary" (click)="$event.stopPropagation()">
+      
+      <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2">
+        <h5 class="mb-0 text-warning">Eintrag bearbeiten</h5>
+        <button class="btn-close btn-close-white" (click)="closeModal()"></button>
+      </div>
+
+      <div class="d-flex align-items-center mb-3 gap-3">
+        <img [src]="movieService.getPosterUrl(entry.movie.poster_path)" style="width: 50px; border-radius: 4px;">
+        <h6 class="mb-0">{{ entry.movie.title }}</h6>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Gesehen am</label>
+        <input type="date" class="form-control bg-secondary text-white border-0" [(ngModel)]="editDate">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Bewertung</label>
+        <select class="form-select bg-secondary text-white border-0" [(ngModel)]="editRating">
+          <option [ngValue]="undefined">Keine Bewertung</option>
+          <option [ngValue]="1">⭐ 1</option>
+          <option [ngValue]="2">⭐⭐ 2</option>
+          <option [ngValue]="3">⭐⭐⭐ 3</option>
+          <option [ngValue]="4">⭐⭐⭐⭐ 4</option>
+          <option [ngValue]="5">⭐⭐⭐⭐⭐ 5</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Review</label>
+        <textarea class="form-control bg-secondary text-white border-0" rows="3" [(ngModel)]="editReview"></textarea>
+      </div>
+
+      <div class="d-flex justify-content-between mt-4">
+        <button class="btn btn-outline-danger" (click)="deleteEntry()">Löschen</button>
+        
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-light" (click)="closeModal()">Abbrechen</button>
+          <button class="btn btn-warning" [disabled]="!editDate" (click)="saveChanges()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

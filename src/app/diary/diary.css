@@ -1,0 +1,66 @@
+.diary-item {
+  background-color: #1a1a1a;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.diary-item:hover {
+  transform: scale(1.01);
+  border-color: #ffc107 !important; /* Goldener Akzent beim Hover */
+}
+
+.diary-poster {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.review-box {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid #ffc107;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.stars {
+  letter-spacing: 2px;
+}
+
+
+/* --- MODAL STYLES (Für Diary & Watchlist gleich) --- */
+.custom-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.custom-modal-content {
+  width: 90%;
+  max-width: 450px;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+}
+
+/* Für kleinere Bildschirme Stapeln */
+@media (max-width: 576px) {
+  .diary-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .diary-poster {
+    width: 150px;
+    height: 225px;
+  }
+}

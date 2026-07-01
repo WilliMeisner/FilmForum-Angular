@@ -1,0 +1,80 @@
+<div class="secreto-container py-5 text-white" style="min-height: 100vh; background-color: #121212;">
+  <div class="container">
+    <h2 class="mb-4">Meine Watchlist</h2>
+
+    @if (isLoading()) {
+      <div class="text-center mt-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="text-secondary mt-3">Lade Filmdaten von TMDB...</p>
+      </div>
+    } 
+    @else if (loadedMovies().length === 0) {
+      <div class="text-center mt-5">
+        <p class="text-secondary">Du hast noch keine Filme auf deiner Liste.</p>
+        <a routerLink="/movie-explorer" class="btn btn-outline-warning mt-3">Filme entdecken</a>
+      </div>
+    } @else {
+      <div class="horizontal-scroll">
+        
+        @for (movie of loadedMovies(); track movie.id) {
+          <div class="mini-card shadow-sm border border-secondary" (click)="openLogModal(movie)">
+            
+            <button class="remove-btn" (click)="removeFromList(movie.id, $event)">✕</button>
+            
+            <img [src]="movieService.getPosterUrl(movie.poster_path)" class="mini-poster" [alt]="movie.title">
+            <div class="p-2">
+              <h6 class="text-truncate mb-0" style="font-size: 0.85rem;" [title]="movie.title">
+                {{ movie.title }}
+              </h6>
+            </div>
+          </div>
+        }
+        
+      </div>
+    }
+  </div>
+</div>
+
+@if (selectedMovieToLog()) {
+  <div class="custom-modal-backdrop" (click)="closeLogModal()">
+    
+    <div class="custom-modal-content bg-dark text-white border border-secondary" (click)="$event.stopPropagation()">
+      <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2">
+        <h5 class="mb-0 text-warning">Film deinem Tagebuch hinzufügen</h5>
+        <button class="btn-close btn-close-white" (click)="closeLogModal()"></button>
+      </div>
+
+      <div class="d-flex align-items-center mb-3 gap-3">
+        <img [src]="movieService.getPosterUrl(selectedMovieToLog()!.poster_path)" style="width: 50px; border-radius: 4px;">
+        <h6 class="mb-0">{{ selectedMovieToLog()?.title }}</h6>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Gesehen am *</label>
+        <input type="date" class="form-control bg-secondary text-white border-0" [(ngModel)]="logDate">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Bewertung (Optional)</label>
+        <select class="form-select bg-secondary text-white border-0" [(ngModel)]="logRating">
+          <option [ngValue]="undefined">Keine Bewertung</option>
+          <option [ngValue]="1">⭐ 1 - Furchtbar</option>
+          <option [ngValue]="2">⭐⭐ 2 - Schlecht</option>
+          <option [ngValue]="3">⭐⭐⭐ 3 - Okay</option>
+          <option [ngValue]="4">⭐⭐⭐⭐ 4 - Gut</option>
+          <option [ngValue]="5">⭐⭐⭐⭐⭐ 5 - Meisterwerk</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Review (Optional)</label>
+        <textarea class="form-control bg-secondary text-white border-0" rows="3" placeholder="Schreibe deine Gedanken auf..." [(ngModel)]="logReview"></textarea>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <button class="btn btn-outline-light" (click)="closeLogModal()">Abbrechen</button>
+        <button class="btn btn-warning" [disabled]="!logDate" (click)="saveLog()">Speichern</button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,129 @@
+<div class="movie-container py-5">
+  <div class="container">
+    
+    <div class="row mb-4">
+      <div class="col text-center">
+        <h1 class="display-4 text-light">Film-Forum</h1>
+        <p class="text-secondary">Willkommen in unserem kleinen Film-Forum</p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+      <div class="col-md-8">
+        <form (submit)="$event.preventDefault(); onSearch()" class="input-group input-group-lg shadow">
+          <input 
+            type="text" 
+            [(ngModel)]="searchQuery" 
+            name="searchField" 
+            class="form-control bg-dark text-white border-secondary" 
+            placeholder="Nach Filmen suchen..."
+          >
+          <button class="btn btn-primary px-4" type="submit">
+            Suchen
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      @for (movie of $any(movieService.movies()); track movie.id) {
+        <div class="col-md-4">
+  <!-- NEU: "position-relative" wurde hinzugefügt -->
+  <div class="card h-100 bg-dark text-white border-secondary movie-card shadow position-relative" 
+       (click)="openDetails(movie)" 
+       style="cursor: pointer;">
+    
+    <!-- NEU: Der Plus-Button -->
+    <button class="add-btn" (click)="addToList(movie, $event)">
+      +
+    </button>
+    
+    <img [src]="getPoster(movie)" class="card-img-top" [alt]="movie.title">
+    
+    <div class="card-body d-flex flex-column">
+      <h5 class="card-title text-truncate">{{ movie.title }}</h5>
+      <div class="mt-auto d-flex justify-content-between align-items-center">
+        <span class="badge bg-warning text-dark">★ {{ movie.vote_average }}</span>
+        <small class="text-secondary">{{ movie.release_date | date:'yyyy' }}</small>
+      </div>
+    </div>
+  </div>
+</div>
+      }
+      @empty {
+        <div class="col text-center text-secondary py-5">
+          <p>Keine Filme gefunden.</p>
+          <button class="btn btn-outline-secondary btn-sm" (click)="searchQuery=''; onSearch()">
+            Zurück
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+@if (selectedMovie(); as movie) {
+  <div class="movie-modal-overlay" (click)="closeDetails()">
+    <div class="movie-modal-content border border-secondary shadow-lg" (click)="$event.stopPropagation()">
+      
+      <button class="btn-close btn-close-white position-absolute top-0 end-0 m-3" 
+              style="z-index: 10;" (click)="closeDetails()"></button>
+      
+      <div class="modal-poster-side">
+        <img [src]="getPoster(movie)" [alt]="movie.title">
+      </div>
+      
+      <div class="modal-content-side">
+        <div class="scroll-container">
+          
+          <h2 class="mb-2">{{ movie.title }}</h2>
+          <div class="mb-4">
+            <span class="badge bg-warning text-dark me-2">★ {{ movie.vote_average }}</span>
+            <span class="text-secondary small">{{ movie.release_date | date:'yyyy' }}</span>
+          </div>
+          
+          <h5 class="text-warning small uppercase">Beschreibung</h5>
+          <p class="text-secondary mb-5" style="line-height: 1.6;">
+            {{ movie.overview || 'Keine Beschreibung verfügbar.' }}
+          </p>
+
+          <h5 class="mt-4 border-bottom border-secondary pb-2 d-flex justify-content-between align-items-center">
+            Community Reviews
+            <span class="badge bg-dark border border-secondary rounded-pill">{{ movieReviews().length }}</span>
+          </h5>
+
+          @if (isLoadingReviews()) {
+            <div class="text-center py-3">
+              <div class="spinner-border spinner-border-sm text-warning" role="status"></div>
+            </div>
+          } @else if (movieReviews().length === 0) {
+            <p class="text-muted small fst-italic mt-3">Noch keine Reviews vorhanden.</p>
+          } @else {
+            <div class="mt-3">
+              @for (review of movieReviews(); track $index) {
+                <div class="review-bubble p-3 mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <strong class="text-info small">@{{ review.username }}</strong>
+                    <span class="text-muted" style="font-size: 0.7rem;">{{ review.watchDate | date:'dd.MM.yy' }}</span>
+                  </div>
+                  <div class="text-warning mb-2" style="font-size: 0.8rem;">
+                    {{ getStars(review.rating) }}
+                  </div>
+                  <p class="mb-0 text-light small">"{{ review.reviewText }}"</p>
+                </div>
+              }
+            </div>
+          }
+
+        </div>
+      </div>
+      
+    </div>
+  </div>
+}
+
+<div #scrollAnchor class="text-center py-5 loading-area">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Lädt...</span>
+  </div>
+</div>

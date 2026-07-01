@@ -1,0 +1,86 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "Benutzer1",
+      "password": "123",
+      "watchlist": [
+        389,
+        687163,
+        1169516
+      ],
+      "reviews": [
+        {
+          "movieId": 155,
+          "watchDate": "2026-05-01",
+          "rating": 5,
+          "reviewText": "Heath ledgers performance ist genial"
+        },
+        {
+          "movieId": 278,
+          "watchDate": "2026-05-03",
+          "rating": 3,
+          "reviewText": "Morgen freeman ?! keine gute wahl"
+        },
+        {
+          "movieId": 129,
+          "watchDate": "2026-05-19",
+          "rating": 5,
+          "reviewText": null
+        },
+        {
+          "movieId": 1339713,
+          "watchDate": "2026-06-05",
+          "rating": 1,
+          "reviewText": "Masterwork - Doch nicht !"
+        },
+        {
+          "movieId": 1275779,
+          "watchDate": "2026-07-01",
+          "rating": 5,
+          "reviewText": "Hier ist ein öffentliches Review für 5 sterne\r\n"
+        },
+        {
+          "movieId": 1275779,
+          "watchDate": "2026-07-01",
+          "rating": 3,
+          "reviewText": "3 sterne Benutzer1\r\n"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "username": "Professor",
+      "password": "admin",
+      "watchlist": [
+        1007757
+      ],
+      "reviews": [
+        {
+          "movieId": 550,
+          "watchDate": "2024-05-06",
+          "rating": 5,
+          "reviewText": "Hervorragendes Architektur-Verständnis im Projekt!"
+        },
+        {
+          "movieId": 238,
+          "watchDate": "2026-05-08",
+          "rating": 5,
+          "reviewText": null
+        },
+        {
+          "movieId": 1275779,
+          "watchDate": "2026-07-01",
+          "rating": 3,
+          "reviewText": "Super film, noch nie von ihm gehört"
+        },
+        {
+          "movieId": 1275779,
+          "watchDate": "2026-06-11",
+          "reviewText": "Hier keine Bewertung"
+        }
+      ]
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
