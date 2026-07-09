@@ -7,11 +7,9 @@ export interface Movie {
   vote_average: number;
 }
 
-// Da TMDB bei einer Suche immer eine Liste von Ergebnissen plus Seiten-Infos zurückgibt,
-// definieren wir auch die Antwortstruktur der API:
 export interface TmdbResponse {
   page: number;
-  results: Movie[]; // Hier steckt unser Array aus Filmen drin!
+  results: Movie[];
   total_pages: number;
   total_results: number;
 }

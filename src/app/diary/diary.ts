@@ -6,7 +6,6 @@ import { AuthService } from '../services/auth.service';
 import { Movie } from '../models/movie.models';
 import { forkJoin, map } from 'rxjs';
 
-// Ein lokales Interface, das Filmdaten und Review-Daten kombiniert
 interface DiaryEntry {
   movie: Movie;
   watchDate: string;
@@ -17,7 +16,7 @@ interface DiaryEntry {
 @Component({
   selector: 'app-diary',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './diary.html',
   styleUrl: './diary.css',
 })
@@ -28,13 +27,11 @@ export class Diary implements OnInit {
   diaryEntries = signal<DiaryEntry[]>([]);
   isLoading = signal(true);
 
-  // --- Modal & Edit State ---
   selectedEntryForEdit = signal<DiaryEntry | null>(null);
-  originalDate = ''; // Um den Eintrag in der DB wiederzufinden
+  originalDate = ''; 
   editDate = '';
   editRating: number | undefined = undefined;
   editReview = '';
-
 
   ngOnInit() {
     this.loadDiaryData();
@@ -49,7 +46,6 @@ export class Diary implements OnInit {
       return;
     }
 
-    // Wir erstellen für jedes Review eine API-Anfrage an TMDB
     const apiRequests = user.reviews.map(review => 
       this.movieService.getMovieById(review.movieId).pipe(
         map(movie => ({
@@ -63,7 +59,6 @@ export class Diary implements OnInit {
 
     forkJoin(apiRequests).subscribe({
       next: (entries) => {
-        // Sortierung: Neuestes Datum zuerst
         const sortedEntries = entries.sort((a, b) => 
           new Date(b.watchDate).getTime() - new Date(a.watchDate).getTime()
         );
@@ -71,14 +66,12 @@ export class Diary implements OnInit {
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('Fehler beim Laden des Diarys:', err);
+        console.error(err);
         this.isLoading.set(false);
       }
     });
   }
 
-
-  // --- Modal Funktionen ---
   openEditModal(entry: DiaryEntry) {
     this.selectedEntryForEdit.set(entry);
     this.originalDate = entry.watchDate;
@@ -103,7 +96,6 @@ export class Diary implements OnInit {
       reviewText: this.editReview
     });
 
-    // Lokale Liste neu laden
     this.loadDiaryData();
     this.closeModal();
   }
@@ -119,7 +111,6 @@ export class Diary implements OnInit {
     }
   }
 
-  // Hilfsfunktion für die Sterne-Anzeige
   getStars(rating?: number): string {
     if (!rating) return '';
     return '⭐'.repeat(rating);

@@ -6,7 +6,7 @@
 
 .diary-item:hover {
   transform: scale(1.01);
-  border-color: #ffc107 !important; /* Goldener Akzent beim Hover */
+  border-color: #ffc107 !important;
 }
 
 .diary-poster {
@@ -28,8 +28,6 @@
   letter-spacing: 2px;
 }
 
-
-/* --- MODAL STYLES (Für Diary & Watchlist gleich) --- */
 .custom-modal-backdrop {
   position: fixed;
   top: 0;
@@ -52,13 +50,13 @@
   box-shadow: 0 15px 40px rgba(0,0,0,0.8);
 }
 
-/* Für kleinere Bildschirme Stapeln */
 @media (max-width: 576px) {
   .diary-item {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
+  
   .diary-poster {
     width: 150px;
     height: 225px;

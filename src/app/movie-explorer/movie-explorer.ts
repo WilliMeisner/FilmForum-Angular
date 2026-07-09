@@ -5,37 +5,30 @@ import { MovieService } from '../services/movie.service';
 import { AuthService } from '../services/auth.service';
 import { Movie } from '../models/movie.models';
 
-
 @Component({
   selector: 'app-movie-explorer',
-  standalone :true,
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './movie-explorer.html',
   styleUrl: './movie-explorer.css',
 })
 export class MovieExplorer implements OnInit, OnDestroy {
-
   public movieService = inject(MovieService);
   public authService = inject(AuthService);
   
-  // 1. Der Anker für das Ende der Seite
   @ViewChild('scrollAnchor') scrollAnchor!: ElementRef;
   private observer!: IntersectionObserver;
 
   selectedMovie = signal<Movie | null>(null);
-
   movieReviews = signal<any[]>([]);
   isLoadingReviews = signal(false);
-
   searchQuery = '';
 
   constructor() {
-    // Dieser Block wird NUR im Browser ausgeführt
     afterNextRender(() => {
       this.setupIntersectionObserver();
     });
   }
-
 
   private setupIntersectionObserver() {
     this.observer = new IntersectionObserver((entries) => {
@@ -50,16 +43,11 @@ export class MovieExplorer implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // Initiales Laden
     this.movieService.currentQuery = '';
     this.movieService.loadMovies();
   }
 
-  // 2. Den Sensor aktivieren, sobald die Seite bereit ist
-  
-
   onSearch() {
-    // Suchbegriff im Service speichern und neu laden (false = Liste ersetzen)
     this.movieService.currentQuery = this.searchQuery;
     this.movieService.loadMovies(false);
   }
@@ -68,18 +56,16 @@ export class MovieExplorer implements OnInit, OnDestroy {
     this.selectedMovie.set(movie);
     document.body.style.overflow = 'hidden';
 
-    // 1. Ladezustand aktivieren und alte Reviews leeren
     this.isLoadingReviews.set(true);
     this.movieReviews.set([]); 
 
-    // 2. Den Daten-Detektiv losschicken
     this.authService.getPublicReviewsForMovie(movie.id).subscribe({
       next: (reviews) => {
         this.movieReviews.set(reviews);
         this.isLoadingReviews.set(false);
       },
       error: (err) => {
-        console.error('Fehler beim Laden der Community-Reviews', err);
+        console.error(err);
         this.isLoadingReviews.set(false);
       }
     });
@@ -99,19 +85,10 @@ export class MovieExplorer implements OnInit, OnDestroy {
     return this.movieService.getPosterUrl(movie.poster_path);
   }
 
-  ngOnDestroy() {
-    // WICHTIG: Sensor abschalten, wenn wir die Seite verlassen
-    if (this.observer) {
-      this.observer.disconnect();
-    }
-    
-  }
-
   addToList(movie: Movie, event: Event) {
     event.stopPropagation();
 
     if (this.authService.isProfileLoggedIn()) {
-      // NEU: Wir rufen den AuthService auf und übergeben NUR die Film-ID!
       const added = this.authService.addToUserWatchlist(movie.id);
       
       if (added) {
@@ -124,5 +101,9 @@ export class MovieExplorer implements OnInit, OnDestroy {
     }
   }
 
-
+  ngOnDestroy() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
 }

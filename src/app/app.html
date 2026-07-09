@@ -1,11 +1,11 @@
 <div class="app-container" [class.menu-open]="isMenuOpen()">
   
-  <!-- DIE AUFGERÄUMTE SIDEBAR -->
  <aside class="sidebar">
     <nav>
       <a routerLink="/movie-explorer" (click)="isMenuOpen.set(false)">
         <span class="icon">🎬</span> <span class="text">Filme entdecken</span>
       </a>
+      
       @if (authService.isProfileLoggedIn()) {
         <a routerLink="/watchlist" (click)="isMenuOpen.set(false)">
           <span class="icon">⭐</span> <span class="text">Meine Watchlist</span>
@@ -20,12 +20,10 @@
         </a>
       }
     </nav>
-
   </aside>
 
   <main class="main-content">
     
-    <!-- DIE TOPBAR (Bleibt fast identisch, nur Links angepasst) -->
     <header class="top-bar">
       <button class="burger-btn" (click)="toggleMenu()">☰</button>
 
@@ -42,11 +40,9 @@
             <div class="login-dropdown shadow-lg border border-secondary">
               
               @if (authService.isProfileLoggedIn()) {
-                <!-- FALL A: EINGELOGGT -> Profil-Menü -->
                 <ul class="list-unstyled m-0">
                   <li><a class="dropdown-item py-2 px-0 text-white border-bottom border-secondary" style="cursor: pointer;">Profil</a></li>
                   <li>
-                    <!-- Aktualisierter routerLink zur Watchlist -->
                     <a class="dropdown-item py-2 px-0 text-white border-bottom border-secondary" 
                        style="cursor: pointer;"
                        routerLink="/watchlist"
@@ -54,11 +50,9 @@
                        Watchlist
                     </a>
                   </li>
-                  <!-- Nutzt jetzt idealerweise onProfileLogout() aus unserem vorherigen Schritt -->
                   <li><a class="dropdown-item py-2 px-0 text-white" style="cursor: pointer;" (click)="onProfileLogout()">Profil Logout</a></li>
                 </ul>
               } @else {
-                <!-- FALL B: NICHT EINGELOGGT -> Profil-Login-Formular -->
                 <h5 class="mb-3 text-center">Profil-Login</h5>
 
                 <form (submit)="$event.preventDefault(); onLogin()">
@@ -93,7 +87,6 @@
                   </button>
                 </form>
               }
-
             </div>
           }
         </div>

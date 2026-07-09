@@ -7,7 +7,8 @@
       "watchlist": [
         389,
         687163,
-        1169516
+        1169516,
+        1275779
       ],
       "reviews": [
         {
@@ -33,18 +34,6 @@
           "watchDate": "2026-06-05",
           "rating": 1,
           "reviewText": "Masterwork - Doch nicht !"
-        },
-        {
-          "movieId": 1275779,
-          "watchDate": "2026-07-01",
-          "rating": 5,
-          "reviewText": "Hier ist ein öffentliches Review für 5 sterne\r\n"
-        },
-        {
-          "movieId": 1275779,
-          "watchDate": "2026-07-01",
-          "rating": 3,
-          "reviewText": "3 sterne Benutzer1\r\n"
         }
       ]
     },
@@ -53,7 +42,8 @@
       "username": "Professor",
       "password": "admin",
       "watchlist": [
-        1007757
+        1007757,
+        557
       ],
       "reviews": [
         {
@@ -66,18 +56,13 @@
           "movieId": 238,
           "watchDate": "2026-05-08",
           "rating": 5,
-          "reviewText": null
-        },
-        {
-          "movieId": 1275779,
-          "watchDate": "2026-07-01",
-          "rating": 3,
-          "reviewText": "Super film, noch nie von ihm gehört"
+          "reviewText": "Text"
         },
         {
           "movieId": 1275779,
           "watchDate": "2026-06-11",
-          "reviewText": "Hier keine Bewertung"
+          "rating": 1,
+          "reviewText": "Was anderes"
         }
       ]
     }

@@ -1,4 +1,3 @@
-/* Container für das waagerechte Scrollen */
 .horizontal-scroll {
   display: flex;
   overflow-x: auto;
@@ -6,24 +5,30 @@
   gap: 15px;
 }
 
-/* Scrollbar etwas dezenter machen */
 .horizontal-scroll::-webkit-scrollbar {
   height: 8px;
 }
+
 .horizontal-scroll::-webkit-scrollbar-thumb {
   background: #444;
   border-radius: 4px;
 }
 
-/* Die kleinen Karten */
 .mini-card {
-  min-width: 140px; /* Feste Breite, damit sie nicht gequetscht werden */
+  min-width: 140px;
   max-width: 140px;
   background-color: #1a1a1a;
   border-radius: 8px;
   overflow: hidden;
   position: relative;
-  flex-shrink: 0; /* Verhindert das Schrumpfen im Flex-Container */
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mini-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5) !important;
 }
 
 .mini-poster {
@@ -32,7 +37,6 @@
   object-fit: cover;
 }
 
-/* Ein kleiner Delete-Button */
 .remove-btn {
   position: absolute;
   top: 5px;
@@ -52,34 +56,16 @@
 }
 
 .remove-btn:hover {
-  background: #dc3545; /* Rotes Hover-Feedback */
+  background: #dc3545;
 }
 
-
-/* ... dein bestehender Code bleibt ... */
-
-/* NEU: Karte klickbar machen */
-.mini-card {
-  /* ... alles was da war ... */
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.mini-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5) !important;
-}
-
-/* ============================ */
-/* MODAL STYLES */
-/* ============================ */
 .custom-modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.85); /* Schön dunkel */
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
